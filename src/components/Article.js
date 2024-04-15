@@ -1,26 +1,26 @@
-import React from 'react';
+import React from "react";
 
-const Article = ({ title, date, preview, minutes }) => {
-  const formattedDate = date ? date : "January 1, 1970";
+function MakeEmojis(minutes) {
+  const interval = minutes < 30 ? 5 : 10;
+  const emoji = minutes < 30 ? "☕️" : "🍱";
 
-  const renderTimeToRead = (minutes) => {
-    if (minutes < 30) {
-      const coffeeCups = Math.ceil(minutes / 5);
-      return '☕️'.repeat(coffeeCups) + ` ${minutes} min read`;
-    } else {
-      const bentoBoxes = Math.ceil(minutes / 10);
-      return '🍱'.repeat(bentoBoxes) + ` ${minutes} min read`;
-    }
-  };
+  let emojis = "";
+  for (let i = 0; i < minutes; i += interval) {
+    emojis += emoji;
+  }
+  return emojis;
+}
 
-  return (
+function Article({ title, date = "January 1, 1970", preview, minutes }) {
+    const emojis = MakeEmojis(minutes);
+  
+    return (
     <article>
       <h3>{title}</h3>
-      <small>{formattedDate}</small>
+      <small>{date} {emojis} {minutes} min read</small>
       <p>{preview}</p>
-      <p>{renderTimeToRead(minutes)}</p>
     </article>
   );
-};
+}
 
 export default Article;
